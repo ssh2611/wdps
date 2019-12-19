@@ -1,7 +1,6 @@
 from collections import namedtuple
 from requests import get
 import json
-import spacy
 
 ElasticSearchResult = namedtuple('ElasticSearchResult', ['id', 'label', 'score', 'type'])
 
@@ -17,37 +16,12 @@ class ElasticSearcher:
             count = self._default_count
         url = 'http://%s:9200/freebase/label/_search' % self._address
         response = self._request_get(url, params={'q': query, 'size': count, 'sort': {'_score': {'order': 'desc'}}}).json()
-       # print(json.dumps(response, indent=2))
-        #spacy_nlp = spacy.load("en_core_web_sm")
         results = []
         for hit in response.get('hits', {}).get('hits', []):
             freebase_label = hit.get('_source', {}).get('label')
             resource = hit.get('_source', {}).get('resource')
-            #document = spacy_nlp(freebase_label)
-            #print(document.ents)
             freebase_id = resource
             score = hit.get('_score')
             results.append(ElasticSearchResult(freebase_id, freebase_label, score, ""))
-
-        results.sort(key=lambda result: result.score)
-
         return results
 
-
-class GetMock:
-    def __init__(self, data):
-        self._data = data
-
-    def json(self):
-        return self._data
-
-
-def get_mock(_, params):
-    mock = {'hits': {'hits': [{
-        '_score': x,
-        '_source': {
-            'label': params['q'],
-            'resource': 'fbase:fb-id-%s' % (hash(str(params['q'])) % 10000 + x)
-        }
-    } for x in range(3)]}}
-    return GetMock(mock)
