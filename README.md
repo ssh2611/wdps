@@ -40,7 +40,7 @@ We used many libraries already present in Python, but we had to use certain exte
 
  When Trident was unavailable or taking extremely long times, we tested our queries from an open endpoint over the internet; code for the same can be found on sparqlSearcher.py.
  
- After extracting the visible text from the warc, we generate candidate entities of the top 5 results from the Freebase using ElasticSearch. Then we use sparql to query DBPedia for the abstracts for the results fetched in previous step, following which we calculate the cosine similarity of the abstracts with input HTML text, rank the entitties and choose the best ones for the output. 
+ After extracting the visible text from the warc, we generate candidate entities of the top 5 results from the Freebase using ElasticSearch. Then we use sparql to query DBPedia for the abstracts for the results fetched in previous step, following which we calculate the cosine similarity of the abstracts with input HTML text, rank the entities and choose the best one for the output. 
 
 ### Implementation on DAS
 #### Python virtual environment
