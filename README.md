@@ -1,8 +1,8 @@
-# wdps2019
-
-Web Data Processing Systems 2019 (VU course XM_40020)
-
 # Assignment: Large Scale Entity Linking - Group 7
+- Shreyas Sivaramakrishnan
+- Petar Galic
+- Mostafa Doroodian
+- Mansi Mundra
 
 This repository is code for Web Data Processing Systems Assignement in Period 2, 2019.
 
@@ -69,7 +69,6 @@ The results were calculated with 560 custom generated entities and 1085 linked e
 
 #### Discussion on results
 
-The precision results are fairly low due to the fact the language model used gives us large number of prediction. On adjusting the formula to calculate accuracy, the score improves.
+The precision results are fairly low due to the fact the language model used gives us large number of predictions. On adjusting the formula to calculate accuracy, the score improves.
 
-#### Conclusion
 
