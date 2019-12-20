@@ -22,12 +22,10 @@ This repository is code for Web Data Processing Systems Assignement in Period 2,
 
 ### Code Implementation
 
+
 #### Architecture
-The system is organized in following files:
-- `warcRecord.py` : Contains `WarcRecord` object which is a representation of one `warc` record. It has attributes `id` and `payload`. This class has a method `parse` which parses the record, removes unnecessary headers and stores data in its `payload` and `id` attributes.
-- `sparqlSearcher.py`: Contains `SparqlSearcher` object which is the point of interaction with trident database and its used for querying the trident database.
-- `elasticSearcher.py`: Contains `ElasticSearcher` object which is used for querying the Freebase labels inside the Elastic Search.
-- `starter-code.py`: Contains core functions of the system.
+![Repo List](data/dataflow.png)
+
 #### Design Choices
 #### Implementation Details
 We wrote our code in python3, using `python/3.5.9` module in DAS.
@@ -45,6 +43,11 @@ We have downloaded Spark version `2.4.4` from apache without Hadoop since the Ha
 #### Execution
 
 #### Details about files
+The system is organized in following files:
+- `warcRecord.py` : Contains `WarcRecord` object which is a representation of one `warc` record. It has attributes `id` and `payload`. This class has a method `parse` which parses the record, removes unnecessary headers and stores data in its `payload` and `id` attributes.
+- `sparqlSearcher.py`: Contains `SparqlSearcher` object which is the point of interaction with trident database and its used for querying the trident database.
+- `elasticSearcher.py`: Contains `ElasticSearcher` object which is used for querying the Freebase labels inside the Elastic Search.
+- `starter-code.py`: Contains core functions of the system.
 
 ### Results and Conclusion
 
