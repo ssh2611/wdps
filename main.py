@@ -20,11 +20,11 @@ nlp = en_core_web_md.load()
 KEYNAME = "WARC-TREC-ID"
 
 sparql = SparqlSearcher(
-    "node059:9090",
+    "%s" % sys.argv[3],
     1,
 )
 es = ElasticSearcher(
-    "node001:9200",
+    "%s" % sys.argv[4],
     5
 )
 
@@ -43,14 +43,14 @@ def process_page(row):
     warc_record = WarcRecord(row)
     warc_payload = warc_record.payload
     if warc_record.broken or not warc_payload:
-        return
+        return []
 
     canonical_labels_of_ids = dict()
     related_ids_of_ids = dict()
     ids_of_words = defaultdict(list)
     types_of_words = defaultdict(list)
     ents = []
-    soup = BeautifulSoup(warc_payload, 'lxml')
+    soup = BeautifulSoup(warc_payload, "html.parser")
     for script in soup(['style', 'script', 'head', 'title', 'meta', '[document]', 'code' 'blockquote', 'cite']):
         script.extract()
     text = " ".join(re.findall(r'\w+',  soup.get_text()))
@@ -58,10 +58,10 @@ def process_page(row):
 
     raw_words = []
     for ent in article.ents:
-        if(ent.label_ not in ["CARDINAL", "DATE", "QUANTITY", "TIME", "ORDINAL", "MONEY", "PERCENT", "QUANTITY"]) and len(ent.text.split(" ")) < 4:
+        if(ent.label_ not in ["DATE", "TIME", "ORDINAL", "MONEY", "PERCENT", "QUANTITY", "QUANITY", "CARDINAL"]) and len(ent.text.split(" ")) < 4:
             raw_words.append(ent.text)
             ents.append(ent)
-
+    output = []
     processed_results = {}
     for ent in ents:
         stripped_ent = ent.text.strip()
@@ -80,8 +80,9 @@ def process_page(row):
                if abstract:
                     abstracts.append([es_result.id, abstract])
         if len(abstracts) > 0:
-            print(stringify_reply(warc_record.id,
+            output.append(stringify_reply(warc_record.id,
                                   stripped_ent, get_sim(text, abstracts)))
+    return output
 
 def get_sim(text, corpus):
     text = text.lower()
@@ -100,5 +101,14 @@ def stringify_reply(warc_id, word, freebase_id):
 
 if __name__ == '__main__':
     warcfile = gzip.open(sys.argv[1], "rt", errors="ignore")
+    output = []
+    count = 0
+    
     for row in split_records(warcfile):
-        process_page(row)
+        count = count + 1
+        output.extend(process_page(row))
+        if count > 70:
+            break
+    outfile = open(sys.argv[2], 'w')
+    outfile.write("\n".join(output))
+    outfile.close()

@@ -1,6 +1,8 @@
 from time import sleep
 import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
+import trident
+import json
 
 prefixes = """
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -9,7 +11,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX fbase: <http://rdf.freebase.com/ns/>
 PREFIX dbo: <http://dbpedia.org/ontology/>
 """
-same_as_template = prefixes + """
+abstract_template = prefixes + """
 SELECT DISTINCT ?same ?abstract WHERE {
     ?s owl:sameAs <http://rdf.freebase.com/ns/m.%s> .
     { ?s owl:sameAs ?same .} UNION { ?same owl:sameAs ?s .}
@@ -29,15 +31,17 @@ class SparqlSearcher:
 
 
     def search(self, freebase_id, label, score) -> map:
-        url = 'http://%s:9090/sparql' % self._address
+        #url = 'http://%s:9090/sparql' % self._address
         data = []
         key = freebase_id.split("/")[2]
         #response2 = requests.post(url, data={'print': False, 'query': same_as_template % (key)    }).json()
-        sparql.setQuery(same_as_template % key)
+        sparql.setQuery(abstract_template % key)
         sparql.setReturnFormat(JSON)
-        response2 = sparql.query().convert()
+        response = sparql.query().convert()
         #print(same_as_template % key)
-        results = response2.get('results').get('bindings')
+        db = trident.Db('/home/jurbani/data/motherkb-trident')
+        #response = json.loads(db.sparql(abstract_template % key))
+        results = response.get('results').get('bindings')
         if results and len(results) > 0:
             return results[0].get('abstract').get('value')
         else:

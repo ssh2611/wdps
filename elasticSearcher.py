@@ -14,7 +14,7 @@ class ElasticSearcher:
     def search(self, query: str, count: int = None) -> list:
         if count is None:
             count = self._default_count
-        url = 'http://%s:9200/freebase/label/_search' % self._address
+        url = 'http://%s/freebase/label/_search' % self._address
         response = self._request_get(url, params={'q': query, 'size': count, 'sort': {'_score': {'order': 'desc'}}}).json()
         results = []
         for hit in response.get('hits', {}).get('hits', []):
