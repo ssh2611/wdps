@@ -9,7 +9,7 @@ import logging
 class WarcRecord:
     def __init__(self, record):
         self.id = None
-        self.payload = None
+        self.payload = "Default"
         self.broken = True
         self._parse(record)
 
@@ -21,14 +21,16 @@ class WarcRecord:
         if capture:
             #raise Exception("RECORD: %s \n CAPTURE %s" % (record, capture))
             self.id = capture.group(1)
-            split = record.split("<html")
-            if len(split) > 1:
-                self.broken = False
-                buffer = StringIO(("<html" + split[1]).strip())
-                while True:
-                    if buffer.readline().strip() == '':
-                        break
-                self.payload = buffer.read().strip()
+            self.payload = record.split("html", 2)[1]
+            #split = record.split("html", 2)
+            #if len(split) > 1:
+            #    self.payload = split[1]
+            #    self.broken = False
+            #    buffer = StringIO(("html" + split[1]).strip())
+            #    while True:
+            #        if buffer.readline().strip() == '':
+            #            break
+            #    self.payload = buffer.read().strip()
                # print(self.payload)
         else:
             self.broken = True
