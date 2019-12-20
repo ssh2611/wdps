@@ -105,10 +105,7 @@ if __name__ == '__main__':
     count = 0
     
     for row in split_records(warcfile):
-        count = count + 1
         output.extend(process_page(row))
-        if count > 70:
-            break
     outfile = open(sys.argv[2], 'w')
     outfile.write("\n".join(output))
     outfile.close()
