@@ -23,7 +23,7 @@ This repository is code for Web Data Processing Systems Assignement in Period 2,
 
 
 #### Design Overview
-![Repo List](data/dataflow.png)
+![Repo List](https://github.com/ssh2611/wdps/blob/master/data/dataflow.png)
 
 #### Implementation Details
 We wrote our code in python3, using `python/3.5.9` module in DAS.
