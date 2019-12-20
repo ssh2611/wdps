@@ -10,8 +10,8 @@ class WarcRecord:
 
     def _parse(self, record):
         # print(record)
-        # capture = re.search('WARC-Record-ID: <(\S*)>', record, re.IGNORECASE)
-        capture = re.search('WARC-TREC-ID: (\S*)', record, re.IGNORECASE)
+        capture = re.search('WARC-Record-ID: <(\S*)>', record, re.IGNORECASE)
+        #capture = re.search('WARC-TREC-ID: (\S*)', record, re.IGNORECASE)
         if capture:
             self.id = capture.group(1)
             self.broken = False
