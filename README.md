@@ -33,10 +33,14 @@ We used many libraries already present in Python, but we had to use certain exte
  - We use additional filtering to extract only named entities using spacy
  - Medium English Model has been used instead of larger alternative due to computational limits.  
 2. `pyspark` (along with `findspark`), in order to distribute and process the data on top of hadoop cluster in DAS. 
+ - `pyspark` development has been done in another branch in the same repo. Due to lack of computational resources(image in     data folder)
 3. `beautifulsoup` for extracting raw data out of warc `html` payload
+ - During text extraction, we ignore some HTML content which are not visible to the user such as metadata, etc.
 4. `scikit-learn`, more precisely `TfidfVectorizer` class which is used for to calculate cosine similarity.
 
-While performing entity extraction, we ignore some HTML content which are not visible to the user such as metadata, etc.
+ When Trident was unavailable or taking extremely long times, we tested our queries from an open endpoint over the internet; code for the same can be found on sparqlSearcher.py.
+ 
+ After extracting the visible text from the warc, we generate candidate entities of the top 5 results from the Freebase using ElasticSearch. Then we use sparql to query DBPedia for the abstracts, following which we calculate the cosine similarity and choose the best ones for the output. 
 
 ### Implementation on DAS
 #### Python virtual environment
@@ -53,10 +57,17 @@ The system is organized in following files:
 - `starter-code.py`: Contains core functions of the system.
 
 ### Results and Conclusion
-
+The results were calculated with 560 custom generated entities and 1085 linked entities.
 #### Results
 
+| Correct Mappings| 55 |
+| Precision | 0.0501 |
+| Recall | 0.0982 |
+| Accuracy | 0.3666 |
+
 #### Discussion on results
+
+The precision results are fairly low due to the fact the language model used gives us large number of prediction. On adjusting the formula to calculate accuracy, the score improves.
 
 #### Conclusion
 
