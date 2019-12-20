@@ -96,7 +96,7 @@ def get_sim(text, corpus):
 
 
 def stringify_reply(warc_id, word, freebase_id):
-    return '%s\t%s\t%s' % (warc_id, word, freebase_id)
+    return '<%s>\t%s\t%s' % (warc_id, word, freebase_id)
 
 
 if __name__ == '__main__':
