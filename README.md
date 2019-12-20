@@ -60,6 +60,8 @@ The system is organized in following files:
 The results were calculated with 560 custom generated entities and 1085 linked entities.
 #### Results
 
+| Metric | Value |
+| --- | --- |
 | Correct Mappings| 55 |
 | Precision | 0.0501 |
 | Recall | 0.0982 |
