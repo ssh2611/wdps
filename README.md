@@ -20,4 +20,25 @@ This repository is code for Web Data Processing Systems Assignement in Period 2,
     + [Conclusion](#sub-sub-heading-8)
 
 
-## Code Implementation
+### Code Implementation
+
+#### Architecture
+
+#### Design Choices
+
+#### Implementation Details
+
+### Implementation on DAS
+
+#### Execution
+
+#### Details about files
+
+### Results and Conclusion
+
+#### Results
+
+#### Discussion on results
+
+#### Conclusion
+
