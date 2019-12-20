@@ -1,29 +1,34 @@
 from io import StringIO
 import re
+import logging
+
+#logger = logging.getLogger('py4j')
+#logger.info("My test info statement")
+
 
 class WarcRecord:
     def __init__(self, record):
         self.id = None
         self.payload = None
-        self.broken = None
+        self.broken = True
         self._parse(record)
 
     def _parse(self, record):
         # print(record)
         # capture = re.search('WARC-Record-ID: <(\S*)>', record, re.IGNORECASE)
-        capture = re.search('WARC-TREC-ID: (\S*)', record, re.IGNORECASE)
+        capture = re.search('WARC-TREC-ID: (\S*)WARC', record, re.IGNORECASE)
+        #raise Exception("RECORD: %s \n CAPTURE %s" % (record, capture))
         if capture:
+            #raise Exception("RECORD: %s \n CAPTURE %s" % (record, capture))
             self.id = capture.group(1)
-            self.broken = False
-            split = record.split("<html ")
+            split = record.split("<html")
             if len(split) > 1:
-                buffer = StringIO(("<html " + split[1]).strip())
+                self.broken = False
+                buffer = StringIO(("<html" + split[1]).strip())
                 while True:
-                    if buffer.readline().strip()== '':
+                    if buffer.readline().strip() == '':
                         break
                 self.payload = buffer.read().strip()
                # print(self.payload)
-        else: 
+        else:
             self.broken = True
-
-    
