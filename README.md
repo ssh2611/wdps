@@ -47,7 +47,22 @@ We used many libraries already present in Python, but we had to use certain exte
 We have installed all the necessary python packages inside a virtual env which was set up using `virtualenv`.
 #### Spark setup
 We have downloaded Spark version `2.4.4` from apache without Hadoop since the Hadoop cluster is already configured in DAS. In order for Spark to work we needed to add the Hadoop path in its configuration. We also had to configure the right python executable for `pyspark` to run.
-#### Execution
+#### Execution-
+The following commands need to be run:
+
+```
+
+cd /home/wdps1907/assignment
+pyenv activate wdps2
+sh start_sparql_server.sh
+# get node and port 
+sh process.sh <input_warc_gz_file> <output_tsv_file> <sparql_server_hostname>:<sparql_server_port> <elasticsearch_hostname>:<elasticsearch_port>
+# EXAMPLE: sh process.sh data/sample.warc.gz sample.predictions.tsv node:002:9090 node001:9200
+
+# check output in the <output_tsv_file>
+
+```
+ 
 
 #### Details about files
 The system is organized in following files:
