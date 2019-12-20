@@ -8,8 +8,7 @@ This repository is code for Web Data Processing Systems Assignement in Period 2,
 
 - [Table of Contents](#heading)
   * [Code Implementation](#sub-heading-1)
-    + [Architecture](#sub-sub-heading-1)
-    + [Design Choices](#sub-sub-heading-2)
+    + [Design Overview](#sub-sub-heading-1)
     + [Implementation Details](#sub-sub-heading-3)
   * [Implementation on DAS](#sub-heading-2)
     + [Execution](#sub-sub-heading-4)
@@ -23,18 +22,22 @@ This repository is code for Web Data Processing Systems Assignement in Period 2,
 ### Code Implementation
 
 
-#### Architecture
+#### Design Overview
 ![Repo List](data/dataflow.png)
 
-#### Design Choices
 #### Implementation Details
 We wrote our code in python3, using `python/3.5.9` module in DAS.
 We used many libraries already present in Python, but we had to use certain external python packages for nlp, distribution and other uses. These packages are:
 1. `spacy` (along with its model `en_core_web_sm`)
- - We used `spaCy` as our nlp library because of its ease of use
+ - We used `spaCy` as our nlp library because of its ease of use.
+ - We use additional filtering to extract only named entities using spacy
+ - Medium English Model has been used instead of larger alternative due to computational limits.  
 2. `pyspark` (along with `findspark`), in order to distribute and process the data on top of hadoop cluster in DAS. 
 3. `beautifulsoup` for extracting raw data out of warc `html` payload
-4. `scikit-learn`, more precisely `TfidfVectorizer` class which is used for converting collection of payloads to a matrix of TF-IDF features.
+4. `scikit-learn`, more precisely `TfidfVectorizer` class which is used for to calculate cosine similarity.
+
+While performing entity extraction, we ignore some HTML content which are not visible to the user such as metadata, etc.
+
 ### Implementation on DAS
 #### Python virtual environment
 We have installed all the necessary python packages inside a virtual env which was set up using `virtualenv`.
